@@ -1,6 +1,7 @@
 {% extends 'layout.html' %}
 
 {% block body %}
+<div class="container">
 <h1> Register </h1>
 {% from 'include/_formhelpers.html' import render_field %}
 <form method="POST" action="">
@@ -22,4 +23,5 @@
     <p><input type="submit" class="btn btn-primary" value="submit"></p>
 
 </form>
+</div>
 {% endblock %}

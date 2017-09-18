@@ -8,7 +8,13 @@
 </head>
 <body>
 {% include 'include/_navbar.html' %}
-{% block body %} {% endblock %}
+<div class="container">
+    {% include 'include/_messages.html' %}
+    {% block body %}
+
+{% endblock %}
+</div>
+
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </body>
 </html>
