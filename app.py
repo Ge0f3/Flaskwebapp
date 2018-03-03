@@ -1,4 +1,4 @@
-from flask import Flask,render_template, flash, redirect, url_for, sessions, logging, request
+from flask import Flask,render_template, flash, redirect, url_for, session, logging, request
 from data import Articles
 from flask_mysqldb import MySQL
 from wtforms import Form, StringField, TextAreaField, PasswordField, ValidationError, validators
@@ -9,8 +9,8 @@ app = Flask(__name__)
 #configuration of my sql
 
 app.config['MYSQL_HOST']='localhost'
-app.config['MYSQL_USER']='flaskweb'
-app.config['MYSQL_PASSWORD']='open'
+app.config['MYSQL_USER']='root'
+app.config['MYSQL_PASSWORD']='Ge0f3!94'
 app.config['MYSQL_DB']='myflaskapp'
 app.config['MYSQL_CURSORCLASS']='DictCursor'
 
@@ -73,9 +73,55 @@ def register():
 
     return render_template('register.html',form=form)
 
-'''@app.route('/register')
-def register():
-    return  render_template('register.html')'''
+@app.route('/login',methods=['GET','POST'])
+def login():
+    if request.method=='POST':
+        username=request.form['username']
+        password_user =request.form['password']
+
+        #creating cursor
+        cur = mysql.connection.cursor()
+
+        #get password for the particular user from the users table
+        result = cur.execute('Select * from users where username=%s',[username])
+
+        #if there is a user with that username
+        if result >0:
+            #get Stored Hash
+            data = cur.fetchone()
+            password = data['password']
+
+            #compare userpassword with password
+            if sha256_crypt.verify(password_user,password):
+                session['logged in']=True
+                session['username']=username
+
+                flash("your are now logged in ",'success')
+                return redirect(url_for('dashboard'))
+            else:
+                error="Invalid Login credentials"
+                return render_template('login.html', error=error)
+                app.logger.info("Password not Matched")
+        else:
+            error ='Username Not found'
+            return render_template('login.html', error=error)
+            app.logger.info("User Not Matched")
+            #closing the cursor
+            cur.close()
+
+    return render_template('login.html')
+
+@app.route('/dashboard')
+def dashboard():
+    return render_template('dashboard.html')
+
+#logout
+@app.route('/logout')
+def logout():
+    session.clear()
+    flash("Your now logged out",'success')
+    return redirect(url_for('login'))
+
 if __name__ == '__main__':
     app.secret_key='secret123'
     app.run(debug=True)
