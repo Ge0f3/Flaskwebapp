@@ -1,7 +1,35 @@
 {% extends 'layout.html' %}
 
 {% block body %}
-<div class="container">
+<div class="jumbotron">
     <h1>Dashboard <small> Welcome {{session.username}}</small> </h1>
+
+</div>
+<div class="container">
+    <a class="btn btn-primary" type="submit" href="/add_article">Add Article </a>
+    <hr>
+    <table class="table table-striped">
+        <tr>
+            <th>ID</th>
+            <th>TITLE</th>
+            <th>AUTHOR</th>
+            <th>DATE</th>
+            <th></th>
+            <th></th>
+
+        </tr>
+        {% for article in articles %}
+        <tr>
+            <th>{{article.id}}</th>
+            <th>{{article.title}}</th>
+            <th>{{article.author}}</th>
+            <th>{{article.create_date}}</th>
+            <th><a href="edit_article/{{article.id}}" class="btn btn-primary pullright">EDIT</a></th>
+            <th><a href="#" class="btn btn-danger pullright">DELETE</a></th>
+
+        </tr>
+        {% endfor %}
+
+    </table>
 </div>
 {% endblock %}
