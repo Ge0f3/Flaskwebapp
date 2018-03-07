@@ -179,6 +179,67 @@ class ArticleFrom(Form):
     title = StringField('Title', [validators.length(min=10, max=200)])
     body = TextAreaField('Body', [validators.length(min=30)])
 
+#edit article
+@app.route('/edit_article/<string:id>',methods=['POST','GET'])
+#@is_logged_in
+def edit_article(id):
+
+    #create cursor
+    cur = mysql.connection.cursor()
+    #get article by id
+    result=  cur.execute("select * from articles where id=%s",[id])
+
+    article = cur.fetchone()
+
+    form = ArticleFrom(request.form)
+
+    #populate article form fields
+
+    form.title.data =article['title']
+    form.body.data =article['body']
+
+    if request.method =='POST' and form.validate():
+
+        title = request.form['title']
+        body = request.form['body']
+
+
+        # creating cursor
+        cur=mysql.connection.cursor()
+
+        #sql query
+        cur.execute("UPDATE articles set title=%s ,body=%s where id=%s",(title,body,id))
+
+        # commit to db
+        mysql.connection.commit()
+
+        cur.close()
+
+        flash('Aritcle Updated', 'success')
+
+        return redirect(url_for('dashboard'))
+
+    return render_template('edit_article.html',form=form)
+
+#Delete_article
+@app.route('/delete_article<string:id>',methods=['POST'])
+def delete_article(id):
+    #create cursor
+    cur = mysql.connection.cursor()
+
+    #executing delete statement
+    cur.execute('delete from articles where id=%s',[id])
+
+    #commit to db
+    mysql.connection.commit()
+
+    cur.close()
+
+    flash('Article Deleted','success')
+
+    return redirect(url_for('dashboard'))
+
+
 #add article
 @app.route('/add_article',methods=['POST','GET'])
 #@is_logged_in
