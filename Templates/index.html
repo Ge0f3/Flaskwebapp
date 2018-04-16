@@ -2,15 +2,19 @@
 
 {% block body %}
 
+
 <div class="jumbotron text-center">
     <h1>My portfolio Website</h1>
-    <p class="lead" >This is my simple portfolio website which I am building on </p>
+    <img class="responsive-img" src="{{url_for('static', filename='profilepic.jpg')}}">
+    <p class="lead" style="font-size: 17px" >This is a twenty year old writing with an aspiration to achieve something distinct..An inspiration has maneuvered my thoughts into this blog…Don’t ever get into a thought that I am a serious person looking at the word “aspiration”…I am a sort of person who laughs till cheeks hurt :D I do love reading a lot…But just novels :P The person you’ll be meeting in this blog is completely a fun filled,amicable person… This blog will be about my funs,my loved ones,my aspirations….Just sit back and enjoy the fun ;) </p> <br>
     <a href="/register" class="btn btn-primary btn-lg">Register</a>
     <a href="/login" class="btn btn-success btn-lg">Login</a>
     {% if session.logged_in==Null  %}
     {% endif %}
 
+
 </div>
+
 
 
 {% endblock %}

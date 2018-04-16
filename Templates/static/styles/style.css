@@ -12,6 +12,9 @@
     left:0;
     z-index:1;
 }
+.text-muted{
+ color:#6c757d !important;
+}
 .jumbotron h2 {margin-top:0;}
 .jumbotron {
   background-color:#563d7c;
@@ -30,3 +33,6 @@
     padding-bottom:20px;
   }
 }
+
+.btn{
+color:black;}

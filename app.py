@@ -5,10 +5,11 @@ from wtforms import Form, StringField, TextAreaField, PasswordField, ValidationE
 from passlib.hash import sha256_crypt
 from functools import wraps
 
-app = Flask(__name__)
-
+def create_app():
+  app = Flask(__name__)
+  return app
 #configuration of my sql
-
+app = create_app()
 app.config['MYSQL_HOST']='localhost'
 app.config['MYSQL_USER']='root'
 app.config['MYSQL_PASSWORD']='Ge0f3!94'
